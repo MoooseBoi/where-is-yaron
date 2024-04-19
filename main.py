@@ -6,7 +6,7 @@ import pygame.image
 import threading
 import os
 
-import track
+import tracker
 
 
 def generate(bg_path, inner_path):
@@ -28,9 +28,9 @@ def generate(bg_path, inner_path):
 def main():
     pygame.init()
 
-    padding = 128
+    padding = 64
     cursor = (0, 0)
-    hidden_x, hidden_y = generate("background.jpg", "faces/yaron.jpg")
+    hidden_x, hidden_y = generate("assets/background.jpg", "assets/faces/yaron.jpg")
     running = True
 
     background = pygame.image.load("output.png")
@@ -41,7 +41,7 @@ def main():
     pygame.display.flip()
 
     tracker_share = Queue()
-    tracker_thread = threading.Thread(target=track.capture_thread, args=(tracker_share, width, height), daemon=True)
+    tracker_thread = threading.Thread(target=tracker.capture_thread, args=(tracker_share, width, height), daemon=True)
     tracker_thread.start()
 
     while running:
@@ -65,7 +65,7 @@ def main():
             and cursor[0] <= hidden_x + 64 + padding \
             and cursor[1] <= hidden_y + 64 + padding:
 
-            hidden_x, hidden_y = generate("background.jpg", "faces/yaron.jpg")
+            hidden_x, hidden_y = generate("assets/background.jpg", "assets/faces/yaron.jpg")
 
             background = pygame.image.load("output.png")
             screen.blit(background, (0, 0))
