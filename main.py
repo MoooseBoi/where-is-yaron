@@ -5,9 +5,11 @@ import pygame
 import pygame.image
 import threading
 import os
-
+import time
 import tracker
+import end_screen
 
+start_time = time.time()
 
 def generate(bg_path, inner_path):
     background = Image.open(bg_path)
@@ -30,7 +32,7 @@ def main():
 
     padding = 64
     cursor = (0, 0)
-    hidden_x, hidden_y = generate("assets/background.jpg", "assets/faces/yaron.jpg")
+    hidden_x, hidden_y = generate("assets/background.png", "assets/faces/yaron.jpg")
     running = True
 
     background = pygame.image.load("output.png")
@@ -45,6 +47,10 @@ def main():
     tracker_thread.start()
 
     while running:
+
+        if time.time() - start_time >= 30:
+	        break
+
         event = pygame.event.poll()
 
         if event.type == pygame.QUIT:
@@ -65,14 +71,16 @@ def main():
             and cursor[0] <= hidden_x + 64 + padding \
             and cursor[1] <= hidden_y + 64 + padding:
 
-            hidden_x, hidden_y = generate("assets/background.jpg", "assets/faces/yaron.jpg")
+            hidden_x, hidden_y = generate("assets/background.png", "assets/faces/yaron.jpg")
 
             background = pygame.image.load("output.png")
             screen.blit(background, (0, 0))
             pygame.display.flip()
 
     os.remove("output.png")
+    # call losing window
     pygame.quit()
+    end_screen.main()
 
 
 if __name__ == "__main__":
