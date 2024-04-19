@@ -10,18 +10,6 @@ def capture_thread(shared, width, height):
         _, frame = cam.read()
         frame = cv2.flip(frame, 1)
 
-        gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-
-        face_cascade = cv2.CascadeClassifier("assets/haarcascade_frontalface_default.xml")
-        faces = face_cascade.detectMultiScale(gray_frame, 1.1, 4)
-
-        try:
-            x, y, w, h = faces[0]
-        except IndexError:
-            continue
-
-
-
         rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
         output = face_mesh.process(rgb_frame)
